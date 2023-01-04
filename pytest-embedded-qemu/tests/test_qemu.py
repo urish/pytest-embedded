@@ -50,3 +50,22 @@ def test_multi_count_qemu(testdir):
     )
 
     result.assert_outcomes(passed=1)
+
+
+@qemu_bin_required
+def test_qemu_use_idf_mixin_methods(testdir):
+    testdir.makepyfile("""
+        import pexpect
+        import pytest
+
+        def test_qemu_use_idf_mixin_methods(dut):
+            dut.run_all_single_board_cases()
+    """)
+
+    result = testdir.runpytest(
+        '-s',
+        '--embedded-services', 'idf,qemu',
+        '--app-path', f'{os.path.join(testdir.tmpdir, "unit_test_app_esp32")}',
+    )
+
+    result.assert_outcomes(failed=1)

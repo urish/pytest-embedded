@@ -47,3 +47,9 @@ class Qemu(DuplicateStdoutPopen):
             cmd=[qemu_prog_path, *qemu_cli_args, *qemu_extra_args] + ['-drive', f'file={image_path},if=mtd,format=raw'],
             **kwargs,
         )
+
+    def _hard_reset(self):
+        """
+        This is a fake hard_reset. Keep this API to keep the consistency.
+        """
+        self.write('\n')
