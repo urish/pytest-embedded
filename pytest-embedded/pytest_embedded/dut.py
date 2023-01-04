@@ -2,6 +2,7 @@ import functools
 import logging
 import multiprocessing
 import os.path
+import warnings
 from typing import AnyStr, Callable, List, Match, Optional, Union
 
 import pexpect
@@ -165,6 +166,12 @@ class Dut:
         Warnings:
             - All unity test cases record would be missed if the final report block is uncaught.
         """
+        if start_time:
+            warnings.warn(
+                'Please remove this unused argument `start_time`, will remove it in release 2.0.0',
+                DeprecationWarning,
+            )
+
         self.expect(UNITY_SUMMARY_LINE_REGEX, timeout=timeout)
 
         if extra_before:
